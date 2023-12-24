@@ -1,6 +1,5 @@
 package jtg.graphics;
 
-import jtg.generator.MyUnitGraph;
 import org.junit.jupiter.api.Test;
 import soot.toolkits.graph.UnitGraph;
 

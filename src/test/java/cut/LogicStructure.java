@@ -10,6 +10,7 @@ public class LogicStructure {
         if (op > 0){
             if(op >1)   return true;
             else    return false;
+           // return true;
         }
         return false;
     }
