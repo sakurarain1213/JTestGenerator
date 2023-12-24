@@ -42,7 +42,10 @@ public class Visualizer {
             }
             ps.println("}");
             ps.close();
-            Dot.showDot(filename);
+
+           // 以上得到节点和边
+           // Dot.showDot(filename);
+
         } catch (IOException exx) {
             TGConsole.out.println("printDOT failed: " + exx.toString());
         }
