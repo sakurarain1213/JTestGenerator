@@ -75,7 +75,7 @@ public class SimpleGenerator {
             testSet = new ArrayList<String>();
             for (Unit h : ug.getHeads())
                 for (Unit t : ug.getTails()) {
-                    path = ug.getExtendedBasicBlockPathBetween(h, t);
+                    path = ug.getExtendedBasicBlockPathBetween(h, t);    //核心算法  遍历得到从开始到所有结束的完整路径
                     System.out.println("The path is: " + path.toString());
                     pathConstraint = calPathConstraint(path);
                     //如果路径约束为空字符串，表示路径约束为恒真
