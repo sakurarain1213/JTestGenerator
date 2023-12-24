@@ -42,6 +42,17 @@ public class RandomUtil {
         easyRandom = new EasyRandom(param);
     }
 
+    /* *
+    * 根据给定的String类名生成一个随机对象
+     */
+    public static Object nextObject(String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+
+            Class<?> clazz = Class.forName(className);
+            Object obj=clazz.newInstance();
+            return nextObject(obj.getClass());
+
+    }
+
     /**
      * 根据给定的类型生成一个随机的对象
      */

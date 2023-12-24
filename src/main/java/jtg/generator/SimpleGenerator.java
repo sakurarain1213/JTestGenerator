@@ -173,11 +173,12 @@ public class SimpleGenerator {
         for (Local para : parameters) {
             varName = para.getName();
             if ("int".equals(para.getType().toString())) {
-                varValue = String.valueOf((int)(Math.random() * 10));
+                varValue = String.valueOf(RandomUtil.nextObject(int.class));
             }
             if ("String".equals(para.getType().toString())) {
-                varValue = "abc";
+                varValue = RandomUtil.nextObject(String.class);
             }
+
 
 
 
