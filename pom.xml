@@ -53,6 +53,18 @@
             <version>2.2</version>
             <scope>test</scope>
         </dependency>
+
+
+
+
+        <dependency>
+            <groupId>org.jeasy</groupId>
+            <artifactId>easy-random-core</artifactId>
+            <version>4.3.0</version>
+
+        </dependency>
+
+
     </dependencies>
 
 </project>

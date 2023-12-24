@@ -1,6 +1,5 @@
 package jtg.generator;
 
-import jtg.exception.ConstraintSolveException;
 import jtg.graphics.SootCFG;
 import jtg.solver.Z3Solver;
 import jtg.visualizer.Visualizer;
@@ -8,7 +7,6 @@ import soot.Body;
 import soot.Local;
 import soot.Unit;
 import soot.jimple.internal.JAssignStmt;
-import soot.jimple.internal.JIdentityStmt;
 import soot.jimple.internal.JIfStmt;
 import soot.jimple.internal.JReturnStmt;
 import soot.toolkits.graph.UnitGraph;
@@ -180,6 +178,10 @@ public class SimpleGenerator {
             if ("String".equals(para.getType().toString())) {
                 varValue = "abc";
             }
+
+
+
+
             //其它的基本类型没写
             testinput = testinput + " " + varName + "=" + varValue;
         }
