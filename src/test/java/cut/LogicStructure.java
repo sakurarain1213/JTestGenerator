@@ -7,8 +7,10 @@ public class LogicStructure {
     }
 
     public boolean soloIf(int op) {
-        if (op > 0)
-            return true;
+        if (op > 0){
+            if(op >1)   return true;
+            else    return false;
+        }
         return false;
     }
 
