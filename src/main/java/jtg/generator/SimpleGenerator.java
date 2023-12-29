@@ -178,12 +178,25 @@ public class SimpleGenerator {
             if ("String".equals(para.getType().toString())) {
                 varValue = RandomUtil.nextObject(String.class);
             }
+            if ("byte".equals(para.getType().toString())) {
+                varValue = String.valueOf(RandomUtil.nextObject(byte.class));
+            }
+            if ("char".equals(para.getType().toString())) {
+                varValue = String.valueOf(RandomUtil.nextObject(char.class));
+            }
+            if ("long".equals(para.getType().toString())) {
+                varValue = String.valueOf(RandomUtil.nextObject(long.class));
+            }
+            if ("float".equals(para.getType().toString())) {
+                varValue = String.valueOf(RandomUtil.nextObject(float.class));
+            }
+            if ("double".equals(para.getType().toString())) {
+                varValue = String.valueOf(RandomUtil.nextObject(double.class));
+            }
+            if ("boolean".equals(para.getType().toString())) {
+                varValue = String.valueOf(RandomUtil.nextObject(boolean.class));
+            }
 
-
-
-
-
-            //其它的基本类型没写
             testinput = testinput + " " + varName + "=" + varValue;
         }
         return testinput;

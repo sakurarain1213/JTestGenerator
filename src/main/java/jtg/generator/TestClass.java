@@ -20,4 +20,11 @@ public class TestClass {
         System.out.println(id);
         System.out.println(classes);
     }
+
+    public void method1(){
+
+    }
+    public void method2(){
+
+    }
 }

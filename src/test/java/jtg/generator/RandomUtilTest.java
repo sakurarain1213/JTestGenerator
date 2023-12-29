@@ -20,9 +20,9 @@ class RandomUtilTest {
 
         System.out.println("基本类型随机生成----");
         short tshort=RandomUtil.nextObject(short.class);
-        System.out.println("int:"+tshort);
+        System.out.println("short:"+tshort);
         byte tbyte=RandomUtil.nextObject(byte.class);
-        System.out.println("int:"+tbyte);
+        System.out.println("byte:"+tbyte);
         int tint=RandomUtil.nextObject(int.class);
         System.out.println("int:"+tint);
         char tchar=RandomUtil.nextObject(char.class);
