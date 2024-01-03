@@ -3,20 +3,17 @@ package jtg.generator;
 //
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by FernFlower decompiler)
-// 因为UnitGraph只读   现在反编译class文件  重构其中的方法   主要是添加一个基路径计算方法
+// 因为UnitGraph只读    主要是添加一个基路径计算方法
 //
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 import jtg.graphics.SootCFG;
+import soot.Body;
 import soot.Unit;
 import soot.toolkits.graph.Block;
 import soot.toolkits.graph.BlockGraph;
-import soot.toolkits.graph.BriefBlockGraph;
 import soot.toolkits.graph.UnitGraph;
-import soot.Body;
+
+import java.util.List;
 
 
 //利用blockGraph 构建块图
@@ -43,7 +40,8 @@ public class MyGraph {
     public void printBlockGraph(BlockGraph bg) {
         for (Block block : bg) {
             System.out.println("Block: " + block.toShortString());
-
+            List<Block> predecessors = block.getPreds();
+            System.out.println("pred" + predecessors.toString());
             for (Unit unit : block) {
                 System.out.println("  Unit: " + unit.toString());
                 // 块里的每个指令/语句

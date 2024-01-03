@@ -7,6 +7,8 @@ import soot.toolkits.graph.BriefBlockGraph;
 import soot.toolkits.graph.ClassicCompleteUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 
+import java.io.File;
+
 public class SootCFG {
 
     public static UnitGraph getMethodCFG(String sourceDirectory, String clsName, String methodName){
@@ -32,5 +34,21 @@ public class SootCFG {
         Body body = sm.retrieveActiveBody();
         return body;
     }
+
+    //补充版本
+    public static Body getMethodBody(String clsName,String signature){
+        G.reset();
+        Options.v().set_prepend_classpath(true);
+        Options.v().set_allow_phantom_refs(true);
+        Options.v().set_soot_classpath(System.getProperty("user.dir") + File.separator + "target" + File.separator + "test-classes");
+        SootClass sc = Scene.v().loadClassAndSupport(clsName);
+        sc.setApplicationClass();
+        Scene.v().loadNecessaryClasses();
+        SootMethod sm = Scene.v().getMethod(signature);
+        Body body = sm.retrieveActiveBody();
+        return body;
+    }
+
+
 
 }

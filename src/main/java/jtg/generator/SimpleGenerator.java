@@ -16,6 +16,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
+/*
+
+现成的方法    用于条件覆盖
+
+
+*/
+
+
+
 public class SimpleGenerator {
 
     private String clsPath;

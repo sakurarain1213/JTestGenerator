@@ -7,15 +7,17 @@ public class LogicStructure {
     }
 
     public boolean soloIf(int op) {
-        if (op > 0){
-            if(op >1)   return true;
-            else    return false;
-           // return true;
-        }
-        return false;
+
+        int i = 1;
+        while (i > 0) { i --; }
+        return op > 123;
     }
 
     public boolean ifElse(int op) {
+        //while (op > 20){
+        //    op-=2;
+        // }
+
         if (op > 18)
             return true;
         else
