@@ -21,10 +21,10 @@ public class TestClass {
         System.out.println(classes);
     }
 
-    public void method1(){
-
+    public String paraString(String str){
+            return str;
     }
-    public void method2(){
-
+    public int paraint(int a,int b){
+        return a+b;
     }
 }
