@@ -1,7 +1,6 @@
 package jtg.generator;
 
 import com.alibaba.fastjson.JSONObject;
-import jtg.generator.util.CommonUtil;
 import jtg.generator.util.PathUtil;
 import jtg.generator.util.RandomUtil;
 import jtg.generator.util.StaticsUtil;
@@ -11,13 +10,15 @@ import jtg.visualizer.Visualizer;
 import soot.*;
 import soot.jimple.StaticFieldRef;
 import soot.jimple.internal.*;
-import soot.toolkits.graph.*;
+import soot.toolkits.graph.ClassicCompleteUnitGraph;
+import soot.toolkits.graph.UnitGraph;
 
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static jtg.generator.util.ParserUtil.parseStringToJson;
 
 
 /**
@@ -62,6 +63,10 @@ public abstract class IGenerator {
     Set<Object> solvableSet; //可解集合   存 样例执行之后所有被覆盖到的目标
     Set<Object> unsolvableSet; //不可解集合
     Set<String> testData;   //用例集
+
+
+    Set<List<String>> myTestData; //适合和自动生成代码耦合的用例集
+
     Map<String, Type> typeMap; //测试方法的参数和临时变量  及其类型
     Set<Unit> caller = new HashSet<>();
 
@@ -94,11 +99,9 @@ public abstract class IGenerator {
 
         //对每一组 待覆盖的目标  点或边或路
         for (Object o : initSet) {
+            if (solvableSet.contains(o)) continue; //如果这项前面已经覆盖了，就直接跳过不算了
 
             System.out.println(o+"每一组 待覆盖的目标-----------------------");
-
-
-            if (solvableSet.contains(o)) continue; //如果这项前面已经覆盖了，就直接跳过不算了
 
             //求出经过这个目标(点或边或路)的所有执行路径
             Set<List<Unit>> allFullPath = calAllFullCandidate(o);   //核心函数 每个具体覆盖  自己算目标
@@ -111,12 +114,22 @@ public abstract class IGenerator {
             //取每一条路径里的点  解约束条件 加入结果集
             for (List<Unit> units : allFullPath) {
                 try {
+
+                    System.out.println("其中一条路径的是"+units);
+
                     String constraint = calPathConstraint(units);  //自行实现约束条件解决
+                    System.out.println("这条路径的约束是"+constraint);
+
                     System.out.println("检测到此路径涉及的参数和变量数量"+typeMap.size());
 //                    System.out.println("约束：" + constraint);
                     constraint = addTypeConstraint(constraint); //根据类型加入新约束
 //                    System.out.println("新约束：" + constraint);
                     String solve = solve(constraint);   //Z3   求解
+
+                    //List<String> solve2=solve2(constraint) ;
+                    // mytestdata  自定义  Z3求解   但是 有json顺序问题   建议在最后用string静态处理
+
+
                     if (solve.contains("error")) { //无解
                         System.out.println("无解：" + units);
                         System.out.println();
@@ -131,6 +144,8 @@ public abstract class IGenerator {
                     System.out.println("此运行路径的解是 " + solve);
                     System.out.println();
                     testData.add(solve);
+                   // myTestData.add(solve2);    // mytestdata  自定义  Z3求解
+
                     break; //找到解，后面的备选路径就不用看了
                 } catch (Exception e) {
                     System.out.println("异常 ");
@@ -149,9 +164,21 @@ public abstract class IGenerator {
         System.out.println("约束求解集合: " + testData);
 
         try {
-            //有循环结构时 上面拿不到结果   这边报下标越界    而且前面的求解集也没拿到  重点关注all full path
+            //有循环结构时 all full path
+            /*bug修正与解释  ：    重点在静态求解器Z3上   因为循环一旦涉及到局部变量
+             就难以跟踪局部变量在每轮循环后的值
+             Z3把for或者while简单看成if  只有进与不进之分  是有问题的
+             因此  循环变量只要作为待测方法的参数传入即可
+
+             至于出现局部变量的循环如何处理    可以深究和重构Z3
+            本项目不再实现
+             */
             Object o = genData();
-            System.out.println("生成结果集合: " + JSONObject.toJSONString(o));
+
+            String temp=JSONObject.toJSONString(o);
+            myTestData=parseStringToJson(temp);   //自定义工具类  实现了解析成list的方法
+
+            System.out.println("生成的结果集合（请使用myTestData Set<List String> 属性获取） " + JSONObject.toJSONString(o));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -190,6 +217,10 @@ public abstract class IGenerator {
                 }
             }
             tc.add(arguments);
+
+
+            System.out.println("obj格式"+ Arrays.toString(arguments));
+
             System.out.println("测试数据"+I+": " + JSONObject.toJSONString(arguments));
             ++I;
         }
@@ -485,88 +516,4 @@ public abstract class IGenerator {
         return s;
     }
 
-    /**
-     * @program: JTestGenerator
-     * @description:
-     * @author: 作者
-     * @create: 2024-01-02 20:52
-     */
-    public static class BranchGenerator extends IGenerator{
-
-            public BranchGenerator(String classPath, String className, String methodName) {
-                super(classPath, className, methodName);
-            }
-
-            @Override
-            void init() {
-                initSet = new HashSet<>(calAllBranch());
-                solvableSet = new HashSet<>();
-                unsolvableSet = new HashSet<>(initSet);
-                testData = new HashSet<>();
-            }
-
-            @Override
-            Set<List<Unit>> calAllFullCandidate(Object o) {
-                List<Unit> brachPath = (List)o;
-                Unit headOfPrimePath = brachPath.get(0);
-                Unit tailOfPrimePath = brachPath.get(brachPath.size()-1);
-                Set<List<Unit>> backwardPaths = new HashSet<>();
-                Set<List<Unit>> forwardPaths = new HashSet<>();
-                for (Unit head : heads) {
-                    PathUtil pathUtil = new PathUtil();
-                    pathUtil.findPath(ug, headOfPrimePath, head, new ArrayList<>(), true, new HashMap<>());
-                    backwardPaths.addAll(pathUtil.getSearchPathResult());
-                }
-                for (Unit tail : tails) {
-                    PathUtil pathUtil = new PathUtil();
-                    pathUtil.findPath(ug, tailOfPrimePath, tail, new ArrayList<>(), false, new HashMap<>());
-                    forwardPaths.addAll(pathUtil.getSearchPathResult());
-                }
-                Set<List<Unit>> result = new HashSet<>();
-                if (backwardPaths.isEmpty() || forwardPaths.isEmpty()) {
-                    return result; //没有完整路径，返回空
-                }
-                for (List<Unit> backwardPath : backwardPaths) {
-                    Collections.reverse(backwardPath); //这个地方注意，每次得复制一下
-                    for (List<Unit> forwardPath : forwardPaths) {
-                        List<Unit> backwardPathCopy = new ArrayList<>(backwardPath);
-                        List<Unit> forwardPathCopy = new ArrayList<>(forwardPath); //注意不能直接操作
-                        backwardPathCopy.remove(backwardPathCopy.size()-1); //首尾重合了
-                        backwardPathCopy.addAll(brachPath);
-                        forwardPathCopy.remove(0);
-                        backwardPathCopy.addAll(forwardPathCopy);//拼接到一起
-                        result.add(backwardPathCopy);
-                    }
-                }
-                return result;
-            }
-
-            @Override
-            void checkCov(List<Unit> fullPath) {
-                for (Object o : unsolvableSet) {
-                    List<Unit> branchPath = (List<Unit>) o;
-                    if (CommonUtil.leftIsSubList(branchPath, fullPath)) {
-                        solvableSet.add(branchPath);
-                    }
-                }
-                unsolvableSet.removeAll(solvableSet);
-            }
-
-            /**计算所有的分支
-             * @return
-             */
-            private Set<List<Unit>> calAllBranch(){
-                BlockGraph bg = new BriefBlockGraph(body);
-                Set<List<Unit>> result = new HashSet<>();
-                for (Block block : bg.getBlocks()) {
-                    for (Block suc : bg.getSuccsOf(block)) {
-                        List<Unit> head = PathUtil.transferB2U(block);
-                        head.addAll(PathUtil.transferB2U(suc));
-                        result.add(head);
-                    }
-
-                }
-                return result;
-            }
-    }
 }
