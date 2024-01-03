@@ -42,7 +42,7 @@ public class autoJenerator {
     public void TestJenerate() throws IOException, TemplateException {//根据property信息和outPut作为输出路径
 
         //处理输出路径
-        String javaName=property.getClassName()+javaSuff;
+        String javaName=property.getClassName()+"Test"+javaSuff;
         String packageName=property.getPkg().replaceAll("\\.","/");
         String out = outRootPath+packageName+"/"+javaName;
 

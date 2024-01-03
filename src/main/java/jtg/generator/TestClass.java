@@ -13,18 +13,30 @@ public class TestClass {
     private List<TestClass> classes;
 
 
-    public void Show(){
-        System.out.println(name);
-        System.out.println(age);
-        System.out.println(phone);
-        System.out.println(id);
-        System.out.println(classes);
+    public void Show(int a,int b){
+        if(a>b){
+
+        }else {
+//            System.out.println(name);
+//            System.out.println(age);
+//            System.out.println(phone);
+//            System.out.println(id);
+//            System.out.println(classes);
+        }
     }
 
-    public String paraString(String str){
-            return str;
+    public String paraString(int str){
+            if(str>0) {
+                return "abc";
+            }else{
+                return "asddd";
+            }
     }
     public int paraint(int a,int b){
-        return a+b;
+        if(a>b) {
+            return a - b;
+        }else{
+            return a + b;
+        }
     }
 }

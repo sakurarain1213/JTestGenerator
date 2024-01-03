@@ -1,7 +1,9 @@
 package jtg.autoJunit;
 
+import jtg.generator.*;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ public class IMethod {
     private int paraNum;
     public List<String> paramTypes=new ArrayList<>();
 
+    public Set<List<String>> TC=new HashSet<>();
 
     public IMethod(Method tm,String nam, String rt){
         method=tm;
@@ -50,6 +53,22 @@ public class IMethod {
         paraNum++;
     }
 
+    public void SetTC(Set<List<String>> tc){
+
+        TC=tc;
+        System.out.println("------------");
+        for(List<String> t : TC){
+            System.out.println(t);
+            for(String str : t){
+                System.out.println(str);
+            }
+        }
+        System.out.println("------------");
+    }
+
+    public Set<List<String>>getTC(){
+        return TC;
+    }
 
 
 }

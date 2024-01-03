@@ -38,7 +38,7 @@ public class classReader {
 
     public classProperty createProperty(){
         classProperty Property = new classProperty(CLASS_NAME);
-
+        Property.SetClspath(CLASS_PATH);
         for(String line : contents){
 
             if(line.startsWith("package")){ //获取包名
