@@ -6,10 +6,9 @@ public class LogicStructure {
         return a + b;
     }
 
-    public boolean soloIf(int op) {
+    public boolean soloIf(int op,boolean i ) {
 
-        int i = 1;
-        while (i > 0) { i --; }
+        while(i) i=false;
         return op > 123;
     }
 

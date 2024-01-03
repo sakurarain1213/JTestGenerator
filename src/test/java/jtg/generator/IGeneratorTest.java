@@ -19,17 +19,21 @@ public class IGeneratorTest {
         String clsName = "cut.LogicStructure";
         String methodName = "soloIf";
 
+
+
+
+        StateGenerator sg = new StateGenerator(clspath, clsName, methodName);
+        sg.generate();
+        System.out.println(sg.myTestData+"list格式的set结果");
+        //System.out.println(sg.testData);
+
         BranchGenerator bg = new BranchGenerator(clspath, clsName, methodName);
         //bg.init();generate自动执行
         bg.generate();
-       // System.out.println(bg.testData);
+        System.out.println(bg.myTestData);
 
-        /*
-        StateGenerator sg = new StateGenerator(clspath, clsName, methodName);
-        sg.generate();
-        System.out.println(sg.testData);
-        */
-        //函数体有循环的时候有下标越界问题
+
+        //函数体有循环的时候有下标越界问题  已查明是Z3问题  over
 
     }
 

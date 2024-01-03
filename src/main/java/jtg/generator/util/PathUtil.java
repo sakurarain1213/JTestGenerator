@@ -141,7 +141,49 @@ public class PathUtil {
 
     //    private Map<Unit, Integer> visitRecord = new HashMap<>();
     //向上或向下扩招到目的点
-    public void findPath(UnitGraph ug, Unit startU, Unit targetU, List<Unit> path, boolean back/*back true forward false*/, Map<Unit, Integer> visitRecord) {
+
+//新版本核心函数   尝试   从目标点开始  搜索到全图起点或者终点结束
+    public void findPath(UnitGraph ug, Unit startU, Unit targetU, List<Unit> path,
+                         boolean back, Map<Unit, Integer> visitRecord) {
+
+        int threshold = back ? StaticsUtil.MOST_BACKWARD_FIND : StaticsUtil.MOST_FORWARD_FIND;
+        List<Unit> nextUnits = back ? ug.getPredsOf(startU) : ug.getSuccsOf(startU);
+        if (result.size() > threshold) // 已经找到一定数量了，不用再找了
+            return;
+        // 避免重复访问
+        if (visitRecord.containsKey(startU) && visitRecord.get(startU) > StaticsUtil.MOST_LOOP) {
+            return; // 达到一定循环次数，不再找寻
+        }
+
+        // 特殊情况处理：如果startU就是目标    test debug
+        if (startU.equals(targetU)) {
+            path.add(startU);
+            result.add(new ArrayList<>(path));
+            path.remove(path.size() - 1); // 移除添加的节点，保持状态
+            return;
+        }
+
+
+        visitRecord.put(startU, visitRecord.getOrDefault(startU, 0) + 1);
+        ArrayList<Unit> pathClone = new ArrayList<>(path);
+        pathClone.add(startU);
+        // 找到了目标
+        if (startU.equals(targetU)) {
+            result.add(pathClone);
+            return;
+        }
+        for (Unit next : nextUnits) {
+            // 检查是否正在重复访问路径中的 Unit
+            if (!pathClone.contains(next)) {
+                findPath(ug, next, targetU, pathClone, back, new HashMap<>(visitRecord));
+            }
+        }
+    }
+
+
+
+    //核心函数  但是需要在有循环的时候debug
+    public void findPath2(UnitGraph ug, Unit startU, Unit targetU, List<Unit> path, boolean back/*back true forward false*/, Map<Unit, Integer> visitRecord) {
         int threshold;
         List<Unit> nextUnits;
         if (back) {

@@ -28,6 +28,7 @@ public class BranchGenerator extends IGenerator {
         solvableSet = new HashSet<>();
         unsolvableSet = new HashSet<>(initSet);
         testData = new HashSet<>();
+        myTestData=new HashSet<>();
     }
 
     @Override
