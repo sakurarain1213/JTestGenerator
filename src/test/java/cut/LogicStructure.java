@@ -32,4 +32,24 @@ public class LogicStructure {
         else
             return Integer.toString(op);
     }
+
+    public int soloFor(int op) {
+        int tot = 0;
+        for (int i = 0; i < op; ++i)
+            tot += i;
+        return tot;
+    }
+
+    public int multipleWhile(int op) {
+        int x = 10;
+        int ans = 0;
+        while (x > 1) {
+            while (op % x == 0) {
+                op /= x;
+                ans++;
+            }
+            x--;
+        }
+        return ans;
+    }
 }
