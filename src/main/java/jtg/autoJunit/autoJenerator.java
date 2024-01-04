@@ -17,8 +17,10 @@ public class autoJenerator {
     private String javaSuff=".java";
     private Template template;
     private Configuration configuration;
-    public autoJenerator(String relativePath) throws IOException {
 
+    private String coverType;
+    public autoJenerator(String relativePath,String ct) throws IOException {
+        coverType=ct;
 
 
 
@@ -58,7 +60,7 @@ public class autoJenerator {
     }
 
     private void getProperty(String relativePath) throws IOException {
-        classReader reader = new classReader(root+relativePath,solveClassName(relativePath));
+        classReader reader = new classReader(root+relativePath,solveClassName(relativePath),coverType);
         reader.Read();
         property=reader.createProperty();
     }

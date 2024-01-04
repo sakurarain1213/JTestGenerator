@@ -18,9 +18,11 @@ public class classReader {
 
     private String pkgName;
 
+    private String coverType;
 
     private List<String> contents;
-    public classReader(String classPath,String className)  {
+    public classReader(String classPath,String className,String ct)  {
+        coverType=ct;
         CLASS_PATH=classPath;
         CLASS_NAME=className;
         contents=new ArrayList<>();
@@ -37,7 +39,7 @@ public class classReader {
     }
 
     public classProperty createProperty(){
-        classProperty Property = new classProperty(CLASS_NAME);
+        classProperty Property = new classProperty(CLASS_NAME,coverType);
         Property.SetClspath(CLASS_PATH);
         for(String line : contents){
 

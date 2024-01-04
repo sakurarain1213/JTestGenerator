@@ -15,7 +15,7 @@ class autoJeneratorTest {
     void testJenerate() throws IOException, TemplateException {
 
 
-        autoJenerator jenerator=new autoJenerator("src/main/java/jtg/generator/TestClass.java");
+        autoJenerator jenerator=new autoJenerator("src/main/java/jtg/generator/TestClass.java","StateCover");
 
         jenerator.TestJenerate();
     }

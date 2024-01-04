@@ -17,11 +17,11 @@ public class ${className}Test{
 
     @Test
     void ${meth.name}(){
-    ${className} test = RandomUtil.nextObject(${className}.class);
-    <#list set_of_tc as tc><#-- tc是Stringlist -->
-    <#if meth.returnType != "void" >${meth.returnType} temp${tc_index} = </#if>test.${meth.name}(<#list tc as t>${t}<#if t_has_next>,</#if></#list>);
-    <#-- <#if meth.returnType != "void" >assertTrue(!temp${tc_index}.isEmpty());</#if> -->
-    </#list>
+        ${className} test = RandomUtil.nextObject(${className}.class);
+        <#list set_of_tc as tc><#-- tc是Stringlist -->
+        <#if meth.returnType != "void" >${meth.returnType} temp${tc_index} = </#if>test.${meth.name}(<#list tc as t>${t}<#if t_has_next>,</#if></#list>);
+        <#-- <#if meth.returnType != "void" >assertTrue(!temp${tc_index}.isEmpty());</#if> -->
+        </#list>
     }
 </#list>
 

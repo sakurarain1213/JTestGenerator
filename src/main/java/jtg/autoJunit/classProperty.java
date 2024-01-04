@@ -1,5 +1,7 @@
 package jtg.autoJunit;
 
+import jtg.generator.BranchGenerator;
+import jtg.generator.PrimePathGenerator;
 import jtg.generator.StateGenerator;
 
 import java.io.File;
@@ -14,6 +16,7 @@ public class classProperty {
     private String pkg;
     private String className;
 
+    private String coverType;
     private final Set<Method> methods=new LinkedHashSet<>();
 
     private final Set<String> mtdsName=new LinkedHashSet<>();
@@ -21,7 +24,8 @@ public class classProperty {
     private final Map<String,Set<String>>mtdTcs=new HashMap<>();
 
     private final Set<IMethod> meths=new LinkedHashSet<>();
-    public classProperty(String cname){
+    public classProperty(String cname,String ct){
+        coverType = ct;
         className=cname;
 
     }
@@ -79,10 +83,34 @@ public class classProperty {
         }
 
         String cp = System.getProperty("user.dir") + File.separator + "target" + File.separator + "classes";
-        StateGenerator sg = new StateGenerator(cp, pkg+"."+className, mName);
-        sg.generate();
-        tempImtd.SetTC(sg.myTestData);
-        System.out.println(sg.myTestData+"list格式的set结果");
+
+        if(coverType.equals("StateCover")) {
+            StateGenerator sg = new StateGenerator(cp, pkg + "." + className, mName);
+            sg.generate();
+            tempImtd.SetTC(sg.myTestData);
+            System.out.println(sg.myTestData + "list格式的set结果");
+        }else if(coverType.equals("BranchCover")) {
+
+
+            BranchGenerator bg = new BranchGenerator(cp, pkg + "." + className, mName);
+            //bg.init();generate自动执行
+            bg.generate();
+            tempImtd.SetTC(bg.myTestData);
+            System.out.println(bg.myTestData);
+        }else if(coverType.equals("PrimePathCover")) {
+
+
+            PrimePathGenerator pg = new PrimePathGenerator(cp, pkg + "." + className, mName);
+            pg.generate();
+            tempImtd.SetTC(pg.myTestData);
+            System.out.println(pg.myTestData + "list格式的set结果");
+        }else{
+            StateGenerator sg = new StateGenerator(cp, pkg + "." + className, mName);
+            sg.generate();
+            tempImtd.SetTC(sg.myTestData);
+            System.out.println(sg.myTestData + "list格式的set结果");
+        }
+
         meths.add(tempImtd);
 
     }
