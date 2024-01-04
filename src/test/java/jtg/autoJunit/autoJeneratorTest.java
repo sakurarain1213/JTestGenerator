@@ -15,9 +15,10 @@ class autoJeneratorTest {
     void testJenerate() throws IOException, TemplateException {
 
 
-        autoJenerator jenerator=new autoJenerator("src/main/java/jtg/generator/TestClass.java","StateCover");
-
-        jenerator.TestJenerate();
+        autoJenerator jeneratorS=new autoJenerator("src/main/java/jtg/generator/TestClass.java","StateCover");
+        autoJenerator jeneratorB=new autoJenerator("src/main/java/jtg/generator/TestClass.java","BranchCover");
+        autoJenerator jeneratorP=new autoJenerator("src/main/java/jtg/generator/TestClass.java","PrimePathCover");
+        jeneratorP.TestJenerate();
     }
     @Test
     void path(){
