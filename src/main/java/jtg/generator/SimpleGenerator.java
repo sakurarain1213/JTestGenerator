@@ -1,6 +1,5 @@
 package jtg.generator;
 
-import jtg.exception.ConstraintSolveException;
 import jtg.graphics.SootCFG;
 import jtg.solver.Z3Solver;
 import jtg.visualizer.Visualizer;
@@ -8,7 +7,6 @@ import soot.Body;
 import soot.Local;
 import soot.Unit;
 import soot.jimple.internal.JAssignStmt;
-import soot.jimple.internal.JIdentityStmt;
 import soot.jimple.internal.JIfStmt;
 import soot.jimple.internal.JReturnStmt;
 import soot.toolkits.graph.UnitGraph;
@@ -17,6 +15,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+
+/*
+
+现成的方法    用于条件覆盖
+
+
+*/
+
+
 
 public class SimpleGenerator {
 
@@ -175,12 +183,30 @@ public class SimpleGenerator {
         for (Local para : parameters) {
             varName = para.getName();
             if ("int".equals(para.getType().toString())) {
-                varValue = String.valueOf((int)(Math.random() * 10));
+                varValue = String.valueOf(RandomUtil.nextObject(int.class));
             }
             if ("String".equals(para.getType().toString())) {
-                varValue = "abc";
+                varValue = RandomUtil.nextObject(String.class);
             }
-            //其它的基本类型没写
+            if ("byte".equals(para.getType().toString())) {
+                varValue = String.valueOf(RandomUtil.nextObject(byte.class));
+            }
+            if ("char".equals(para.getType().toString())) {
+                varValue = String.valueOf(RandomUtil.nextObject(char.class));
+            }
+            if ("long".equals(para.getType().toString())) {
+                varValue = String.valueOf(RandomUtil.nextObject(long.class));
+            }
+            if ("float".equals(para.getType().toString())) {
+                varValue = String.valueOf(RandomUtil.nextObject(float.class));
+            }
+            if ("double".equals(para.getType().toString())) {
+                varValue = String.valueOf(RandomUtil.nextObject(double.class));
+            }
+            if ("boolean".equals(para.getType().toString())) {
+                varValue = String.valueOf(RandomUtil.nextObject(boolean.class));
+            }
+
             testinput = testinput + " " + varName + "=" + varValue;
         }
         return testinput;

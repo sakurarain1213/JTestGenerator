@@ -18,11 +18,11 @@
             <artifactId>soot</artifactId>
             <version>4.2.1</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.sosy-lab</groupId>-->
-<!--            <artifactId>javasmt-solver-z3</artifactId>-->
-<!--            <version>4.8.9-sosy1</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.sosy-lab</groupId>-->
+        <!--            <artifactId>javasmt-solver-z3</artifactId>-->
+        <!--            <version>4.8.9-sosy1</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
@@ -40,6 +40,14 @@
             <version>5.8.1</version>
         </dependency>
 
+        <!--处理json的阿里巴巴包 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.62</version>
+        </dependency>
+
+
 
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -53,6 +61,22 @@
             <version>2.2</version>
             <scope>test</scope>
         </dependency>
+
+
+
+
+        <dependency>
+            <groupId>org.jeasy</groupId>
+            <artifactId>easy-random-core</artifactId>
+            <version>4.3.0</version>
+
+        </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.30</version>
+        </dependency>
+
     </dependencies>
 
 </project>

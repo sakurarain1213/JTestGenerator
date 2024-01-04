@@ -43,8 +43,8 @@ public class Visualizer {
             ps.println("}");
             ps.close();
 
-           // 以上得到节点和边
-           // Dot.showDot(filename);
+           // 以上得到节点和边(有后继的unit的连线就是边)  以下是把点和边生成png
+            Dot.showDot(filename);
 
         } catch (IOException exx) {
             TGConsole.out.println("printDOT failed: " + exx.toString());

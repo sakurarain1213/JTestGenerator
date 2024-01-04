@@ -6,16 +6,16 @@ public class LogicStructure {
         return a + b;
     }
 
-    public boolean soloIf(int op) {
-        if (op > 0){
-            if(op >1)   return true;
-            else    return false;
-           // return true;
-        }
-        return false;
+    public boolean soloIf(int a) {
+        //System.out.println(123);
+        return a>1;
     }
 
     public boolean ifElse(int op) {
+        //while (op > 20){
+        //    op-=2;
+        // }
+
         if (op > 18)
             return true;
         else
