@@ -6,7 +6,7 @@ public class Son extends TestClass{
     private String baba;
 
     public void Show(){
-        super.Show();
+        super.Show(1,2);
         System.out.println(length);
         System.out.println(baba);
     }

@@ -49,11 +49,11 @@ class RandomUtilTest {
         TestClass t2=RandomUtil.nextObject(TestClass.class);
         System.out.println(t2);
 
-        t2.Show();
+        t2.Show(1,2);
 
         System.out.println("产生有继承关系的随机对象----");
         Son t3=RandomUtil.nextObject(Son.class);
-        t3.Show();
+        t3.Show(1,2);
 
         assertTrue(clasNm!=null);
         assertTrue(t2!=null);

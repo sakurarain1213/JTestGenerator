@@ -1,5 +1,8 @@
 package jtg.autoJunit;
 
+import jtg.generator.StateGenerator;
+
+import java.io.File;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.*;
@@ -7,6 +10,7 @@ import java.util.*;
 //存储一个class的信息
 public class classProperty {
 
+    private String clspath;
     private String pkg;
     private String className;
 
@@ -27,7 +31,7 @@ public class classProperty {
     }
     public void setPkg(String str){pkg=str;}
     public String getClassName(){
-        return className+"Test";
+        return className;
     }
 
     public Set<Method>getMethods(){
@@ -73,6 +77,12 @@ public class classProperty {
 
             tempImtd.AddParam(buff[buff.length-1]);
         }
+
+        String cp = System.getProperty("user.dir") + File.separator + "target" + File.separator + "classes";
+        StateGenerator sg = new StateGenerator(cp, pkg+"."+className, mName);
+        sg.generate();
+        tempImtd.SetTC(sg.myTestData);
+        System.out.println(sg.myTestData+"list格式的set结果");
         meths.add(tempImtd);
 
     }
@@ -88,5 +98,9 @@ public class classProperty {
         System.out.println(className);
         System.out.println(mtdsName);
 
+    }
+
+    public void SetClspath(String path){
+        clspath=path;
     }
 }

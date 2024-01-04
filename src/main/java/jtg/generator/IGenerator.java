@@ -65,7 +65,7 @@ public abstract class IGenerator {
     Set<String> testData;   //用例集
 
 
-    Set<List<String>> myTestData; //适合和自动生成代码耦合的用例集
+    public Set<List<String>> myTestData; //适合和自动生成代码耦合的用例集
 
     Map<String, Type> typeMap; //测试方法的参数和临时变量  及其类型
     Set<Unit> caller = new HashSet<>();
