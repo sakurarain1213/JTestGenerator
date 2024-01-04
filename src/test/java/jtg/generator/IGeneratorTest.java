@@ -33,6 +33,13 @@ public class IGeneratorTest {
         System.out.println(bg.myTestData);
 
 
+
+        PrimePathGenerator pg = new PrimePathGenerator(clspath, clsName, methodName);
+        pg.generate();
+        System.out.println(sg.myTestData+"list格式的set结果");
+
+
+
         //函数体有循环的时候有下标越界问题  已查明是Z3问题  over
 
     }

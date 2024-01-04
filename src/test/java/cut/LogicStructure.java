@@ -6,10 +6,9 @@ public class LogicStructure {
         return a + b;
     }
 
-    public boolean soloIf(int op,boolean i ) {
-
-        while(i) i=false;
-        return op > 123;
+    public boolean soloIf(int a) {
+        //System.out.println(123);
+        return a>1;
     }
 
     public boolean ifElse(int op) {
